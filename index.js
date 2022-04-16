@@ -2,6 +2,7 @@ import "dotenv/config"
 import fs from "fs"
 import express from "express"
 import morgan from "morgan"
+import cors from "cors"
 import { connect } from "./db/index.js"
 import usuarioRoute from "./route/usuario.route.js"
 import authRoute from "./route/auth.route.js"
@@ -15,6 +16,7 @@ const accessLogStream = fs.createWriteStream('./access.log', { flags: 'a' })
 connect()
 
 api.use(express.json())
+api.use(cors())
 api.use(morgan(":date[clf] :remote-addr - :remote-user :method :url :status :response-time ms", { stream: accessLogStream }))
 api.use("/usuario", usuarioRoute)
 api.use("/auth", authRoute)
